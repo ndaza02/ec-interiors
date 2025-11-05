@@ -1,0 +1,41 @@
+# Netlify configuration for EC Interiors (static site)
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # No build step required (pure HTML/CSS/JS)
+  command = ""
+  publish = "."
+
+# Ensure correct content types and caching for assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache videos separately (allow long-term caching)
+[[headers]]
+  for = "/assets/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "video/mp4"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Redirect root without filename to index.html (static hosting default, explicit here for clarity)
+[[redirects]]
+  from = "/index"
+  to = "/index.html"
+  status = 301
+
+# Optional: If you ever move to an SPA router, uncomment below to serve index.html for all paths
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
