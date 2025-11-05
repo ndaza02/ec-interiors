@@ -6,14 +6,15 @@
 }
 
 :root {
-    --primary-color: #2c2c2c;
-    --secondary-color: #8b7355;
-    --accent-color: #d4a574;
-    --text-color: #333;
-    --light-bg: #f8f6f3;
-    --white: #ffffff;
-    --gray: #666;
-    --light-gray: #e5e5e5;
+    /* EC Interiors Color Palette */
+    --primary-color: #222222;        /* Dark Charcoal - text/contrast */
+    --secondary-color: #4A4A4A;      /* Deep Slate Grey - headers/footers */
+    --accent-color: #CC5500;         /* Burnt Orange - accent pop */
+    --text-color: #222222;           /* Dark Charcoal */
+    --light-bg: #FAF9F6;             /* Off-White - base neutral */
+    --white: #FAF9F6;                /* Off-White - background/highlight */
+    --gray: #4A4A4A;                 /* Deep Slate Grey */
+    --light-gray: #E5E5E5;           /* Light Gray */
     --transition: all 0.3s ease;
 }
 
@@ -26,6 +27,7 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
+    background: var(--white);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -113,12 +115,12 @@ a {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--white);
+    background: var(--accent-color);
     transition: var(--transition);
 }
 
 .navbar.scrolled .nav-link::after {
-    background: var(--secondary-color);
+    background: var(--accent-color);
 }
 
 .nav-link:hover::after {
@@ -164,7 +166,7 @@ a {
 
 .dropdown-content a:hover {
     background: var(--light-bg);
-    color: var(--secondary-color);
+    color: var(--accent-color);
     padding-left: 2rem;
 }
 
@@ -256,10 +258,12 @@ a {
 .cta-button {
     display: inline-block;
     padding: 0.9rem 2.2rem;
-    background: var(--white);
-    color: var(--primary-color);
+    background: var(--accent-color);
+    color: var(--white);
     font-weight: 600;
-    border-radius: 0;
+    border-radius: 4px;
+    border: none;
+    outline: none;
     transition: var(--transition);
     box-shadow: none;
     text-transform: capitalize;
@@ -270,7 +274,19 @@ a {
     background: var(--secondary-color);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:focus,
+.cta-button:active {
+    outline: none;
+    border: none;
+}
+
+/* Accessible but subtle focus ring */
+.cta-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 85, 0, 0.25); /* accent color ring */
 }
 
 .hero-image {
@@ -340,7 +356,7 @@ a {
 /* Products Section */
 .products-section {
     padding: 0;
-    background: var(--white);
+    background: var(--light-bg);
 }
 
 .product-card {
@@ -394,7 +410,7 @@ a {
 .link-button {
     padding: 0.85rem 2rem;
     background: var(--white);
-    color: var(--white);
+    color: var(--primary-color);
     font-weight: 600;
     border-radius: 0;
     transition: var(--transition);
@@ -403,8 +419,8 @@ a {
     letter-spacing: 0.5px;
 }
 
-.link-button.dark {
-    background: var(--primary-color);
+.link-button.dark { /* secondary accent button */
+    background: var(--secondary-color);
     color: var(--white);
 }
 
@@ -415,7 +431,7 @@ a {
 }
 
 .link-button-text {
-    color: var(--primary-color);
+    color: var(--accent-color);
     font-weight: 600;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
@@ -436,6 +452,13 @@ a {
     display: flex;
     gap: 0;
     z-index: 10;
+}
+
+/* For product cards where the image is on the right (non-reverse),
+   move the nav arrows to the bottom-left corner */
+.product-card:not(.reverse) .image-nav {
+    left: 20px;
+    right: auto;
 }
 
 .nav-arrow {
@@ -497,7 +520,7 @@ a {
 /* Contact Section */
 .contact-section {
     padding: 6rem 2rem;
-    background: var(--white);
+    background: var(--light-bg);
 }
 
 .contact-content {

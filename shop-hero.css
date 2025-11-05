@@ -1,0 +1,42 @@
+/* Reset body margin */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Shop Hero - Full Viewport Height */
+.shop-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 50%, var(--primary-color) 100%);
+    padding: 0 2rem;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding-top: 0;
+}
+
+.shop-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.shop-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(204, 85, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(204, 85, 0, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}

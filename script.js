@@ -28,6 +28,7 @@ function initHeroVideoRandomizer() {
         { mp4: 'assets/video/modern-living-room-with-yellow-armchairs-and-cloud-2025-10-16-08-12-42-utc.mp4' },
         { mp4: 'assets/video/spacious-empty-room-with-natural-light-2025-10-16-07-46-16-utc.mp4' },
         { mp4: 'assets/video/modern-minimalist-bedroom-design-2025-10-17-00-05-17-utc.mp4' },
+        { mp4: 'assets/video/modern-interior-design-furniture-assembly-takes-a-2025-10-16-07-40-01-utc.mp4' },
         { mp4: 'assets/video/modern-interior-design-furniture-assembly-takes-a-2025-10-17-00-47-00-utc.mp4' },
         { mp4: 'assets/video/hero.mp4' },
         // MOV as a fallback entry if supported by the browser

@@ -1,0 +1,790 @@
+// Shop Page JavaScript
+
+// Sample product data (in production, this would come from an API/database)
+const products = [
+    {
+        id: 1,
+        name: "Modern Sectional Sofa",
+        category: "furniture",
+        style: "minimalist",
+        material: "fabric",
+        color: "grey",
+        price: 2499,
+        rating: 5,
+        availability: "in-stock",
+        features: ["new"],
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&auto=format&fit=crop",
+        description: "Contemporary sectional sofa with clean lines and plush cushioning. Perfect for modern living spaces.",
+        dimensions: "W: 120\" × D: 85\" × H: 32\"",
+        sku: "SOF-001",
+        inStock: 12
+    },
+    {
+        id: 2,
+        name: "Scandinavian Dining Table",
+        category: "furniture",
+        style: "scandinavian",
+        material: "wood",
+        color: "brown",
+        price: 1299,
+        rating: 5,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&auto=format&fit=crop",
+        description: "Solid oak dining table with natural finish. Seats 6-8 people comfortably.",
+        dimensions: "W: 78\" × D: 39\" × H: 30\"",
+        sku: "TAB-002",
+        inStock: 8
+    },
+    {
+        id: 3,
+        name: "Industrial Floor Lamp",
+        category: "lighting",
+        style: "industrial",
+        material: "metal",
+        color: "black",
+        price: 349,
+        rating: 4,
+        availability: "in-stock",
+        features: ["sale", "eco-friendly"],
+        image: "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=600&auto=format&fit=crop",
+        description: "Adjustable industrial-style floor lamp with matte black finish. Energy-efficient LED compatible.",
+        dimensions: "H: 65\" × Base: 12\"",
+        sku: "LMP-003",
+        inStock: 25
+    },
+    {
+        id: 4,
+        name: "Luxury Velvet Armchair",
+        category: "furniture",
+        style: "luxury",
+        material: "fabric",
+        color: "green",
+        price: 899,
+        rating: 5,
+        availability: "in-stock",
+        features: ["new"],
+        image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&auto=format&fit=crop",
+        description: "Elegant velvet armchair with brass legs. Deep emerald green upholstery adds sophistication.",
+        dimensions: "W: 32\" × D: 35\" × H: 38\"",
+        sku: "CHR-004",
+        inStock: 15
+    },
+    {
+        id: 5,
+        name: "Mid-Century Coffee Table",
+        category: "furniture",
+        style: "mid-century",
+        material: "wood",
+        color: "brown",
+        price: 599,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1611269154421-4e27233ac5c7?w=600&auto=format&fit=crop",
+        description: "Classic mid-century modern coffee table with tapered legs and walnut veneer.",
+        dimensions: "W: 48\" × D: 24\" × H: 18\"",
+        sku: "TAB-005",
+        inStock: 20
+    },
+    {
+        id: 6,
+        name: "Minimalist Pendant Light",
+        category: "lighting",
+        style: "minimalist",
+        material: "glass",
+        color: "white",
+        price: 279,
+        rating: 5,
+        availability: "in-stock",
+        features: ["free-shipping"],
+        image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&auto=format&fit=crop",
+        description: "Sleek glass pendant light with brushed nickel hardware. Perfect for kitchen islands or dining areas.",
+        dimensions: "Dia: 10\" × H: 12\"",
+        sku: "LMP-006",
+        inStock: 30
+    },
+    {
+        id: 7,
+        name: "Handwoven Wool Rug",
+        category: "textiles",
+        style: "scandinavian",
+        material: "fabric",
+        color: "beige",
+        price: 799,
+        rating: 5,
+        availability: "in-stock",
+        features: ["eco-friendly"],
+        image: "https://images.unsplash.com/photo-1600166898405-da9535204843?w=600&auto=format&fit=crop",
+        description: "100% natural wool rug with geometric pattern. Handwoven by artisans using sustainable materials.",
+        dimensions: "W: 96\" × L: 120\"",
+        sku: "RUG-007",
+        inStock: 10
+    },
+    {
+        id: 8,
+        name: "Marble Decorative Vase",
+        category: "decor",
+        style: "luxury",
+        material: "marble",
+        color: "white",
+        price: 189,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=600&auto=format&fit=crop",
+        description: "Hand-carved marble vase with natural veining. Each piece is unique.",
+        dimensions: "Dia: 6\" × H: 12\"",
+        sku: "DEC-008",
+        inStock: 18
+    },
+    {
+        id: 9,
+        name: "Leather Lounge Chair",
+        category: "furniture",
+        style: "mid-century",
+        material: "leather",
+        color: "brown",
+        price: 1599,
+        rating: 5,
+        availability: "in-stock",
+        features: ["new"],
+        image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&auto=format&fit=crop",
+        description: "Premium full-grain leather lounge chair with ottoman. Timeless design meets ultimate comfort.",
+        dimensions: "W: 33\" × D: 33\" × H: 32\"",
+        sku: "CHR-009",
+        inStock: 6
+    },
+    {
+        id: 10,
+        name: "Brass Table Lamp",
+        category: "lighting",
+        style: "luxury",
+        material: "metal",
+        color: "orange",
+        price: 329,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop",
+        description: "Elegant brass table lamp with linen shade. Adds warmth to any bedside or desk.",
+        dimensions: "Base: 6\" × H: 24\"",
+        sku: "LMP-010",
+        inStock: 22
+    },
+    {
+        id: 11,
+        name: "Outdoor Teak Dining Set",
+        category: "outdoor",
+        style: "scandinavian",
+        material: "wood",
+        color: "brown",
+        price: 2199,
+        rating: 5,
+        availability: "in-stock",
+        features: ["free-shipping"],
+        image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&auto=format&fit=crop",
+        description: "Weather-resistant teak dining set. Includes table and 6 chairs. Perfect for outdoor entertaining.",
+        dimensions: "Table: 72\" × 40\"",
+        sku: "OUT-011",
+        inStock: 5
+    },
+    {
+        id: 12,
+        name: "Minimalist Desk",
+        category: "office",
+        style: "minimalist",
+        material: "wood",
+        color: "white",
+        price: 699,
+        rating: 5,
+        availability: "in-stock",
+        features: ["customizable"],
+        image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&auto=format&fit=crop",
+        description: "Clean-lined desk with cable management. Available in multiple finishes.",
+        dimensions: "W: 60\" × D: 30\" × H: 29\"",
+        sku: "OFF-012",
+        inStock: 14
+    },
+    {
+        id: 13,
+        name: "Velvet Throw Pillows Set",
+        category: "textiles",
+        style: "luxury",
+        material: "fabric",
+        color: "blue",
+        price: 129,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=600&auto=format&fit=crop",
+        description: "Set of 4 luxurious velvet throw pillows. Removable covers for easy cleaning.",
+        dimensions: "18\" × 18\" each",
+        sku: "TEX-013",
+        inStock: 40
+    },
+    {
+        id: 14,
+        name: "Industrial Bookshelf",
+        category: "office",
+        style: "industrial",
+        material: "metal",
+        color: "black",
+        price: 549,
+        rating: 5,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=600&auto=format&fit=crop",
+        description: "5-tier open bookshelf with metal frame and wood shelves. Industrial-chic design.",
+        dimensions: "W: 36\" × D: 14\" × H: 72\"",
+        sku: "OFF-014",
+        inStock: 11
+    },
+    {
+        id: 15,
+        name: "Ceramic Table Lamp Set",
+        category: "lighting",
+        style: "scandinavian",
+        material: "glass",
+        color: "white",
+        price: 249,
+        rating: 4,
+        availability: "in-stock",
+        features: ["sale"],
+        image: "https://images.unsplash.com/photo-1543198126-a8ad8d47a9eb?w=600&auto=format&fit=crop",
+        description: "Pair of ceramic table lamps with textured finish. Soft ambient lighting.",
+        dimensions: "Base: 5\" × H: 20\"",
+        sku: "LMP-015",
+        inStock: 16
+    },
+    {
+        id: 16,
+        name: "Outdoor Lounge Chair",
+        category: "outdoor",
+        style: "minimalist",
+        material: "metal",
+        color: "grey",
+        price: 449,
+        rating: 5,
+        availability: "in-stock",
+        features: ["eco-friendly"],
+        image: "https://images.unsplash.com/photo-1600494603989-9650cf6ddd3d?w=600&auto=format&fit=crop",
+        description: "Powder-coated aluminum lounge chair with weather-resistant cushions.",
+        dimensions: "W: 28\" × D: 60\" × H: 36\"",
+        sku: "OUT-016",
+        inStock: 9
+    },
+    {
+        id: 17,
+        name: "Abstract Wall Art",
+        category: "decor",
+        style: "minimalist",
+        material: "fabric",
+        color: "beige",
+        price: 299,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&auto=format&fit=crop",
+        description: "Large-scale abstract canvas art. Neutral tones complement any decor.",
+        dimensions: "W: 48\" × H: 36\"",
+        sku: "DEC-017",
+        inStock: 7
+    },
+    {
+        id: 18,
+        name: "Linen Curtain Panels",
+        category: "textiles",
+        style: "scandinavian",
+        material: "fabric",
+        color: "white",
+        price: 179,
+        rating: 5,
+        availability: "in-stock",
+        features: ["eco-friendly"],
+        image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&auto=format&fit=crop",
+        description: "100% linen curtain panels. Natural light filtering with elegant drape.",
+        dimensions: "W: 50\" × L: 96\" per panel",
+        sku: "TEX-018",
+        inStock: 28
+    },
+    {
+        id: 19,
+        name: "Ergonomic Office Chair",
+        category: "office",
+        style: "minimalist",
+        material: "fabric",
+        color: "grey",
+        price: 499,
+        rating: 5,
+        availability: "in-stock",
+        features: ["new"],
+        image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&auto=format&fit=crop",
+        description: "Fully adjustable ergonomic chair with lumbar support. Breathable mesh back.",
+        dimensions: "W: 26\" × D: 26\" × H: 38-42\"",
+        sku: "OFF-019",
+        inStock: 13
+    },
+    {
+        id: 20,
+        name: "Glass Coffee Table",
+        category: "furniture",
+        style: "luxury",
+        material: "glass",
+        color: "white",
+        price: 799,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&auto=format&fit=crop",
+        description: "Tempered glass coffee table with brass frame. Modern elegance for your living room.",
+        dimensions: "W: 48\" × D: 28\" × H: 16\"",
+        sku: "TAB-020",
+        inStock: 10
+    },
+    {
+        id: 21,
+        name: "Woven Storage Baskets",
+        category: "decor",
+        style: "scandinavian",
+        material: "fabric",
+        color: "beige",
+        price: 89,
+        rating: 5,
+        availability: "in-stock",
+        features: ["eco-friendly"],
+        image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&auto=format&fit=crop",
+        description: "Set of 3 handwoven seagrass baskets. Perfect for organizing and storage.",
+        dimensions: "Small: 10\", Medium: 12\", Large: 14\"",
+        sku: "DEC-021",
+        inStock: 35
+    },
+    {
+        id: 22,
+        name: "Platform Bed Frame",
+        category: "furniture",
+        style: "minimalist",
+        material: "wood",
+        color: "brown",
+        price: 1099,
+        rating: 5,
+        availability: "in-stock",
+        features: ["free-shipping"],
+        image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&auto=format&fit=crop",
+        description: "Low-profile platform bed with solid wood construction. No box spring needed.",
+        dimensions: "Queen: 60\" × 80\"",
+        sku: "BED-022",
+        inStock: 8
+    },
+    {
+        id: 23,
+        name: "Chandelier Pendant",
+        category: "lighting",
+        style: "luxury",
+        material: "glass",
+        color: "orange",
+        price: 1299,
+        rating: 5,
+        availability: "in-stock",
+        features: ["new"],
+        image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&auto=format&fit=crop",
+        description: "Statement chandelier with amber glass globes and brass accents. Dramatic focal point.",
+        dimensions: "Dia: 36\" × H: 24\"",
+        sku: "LMP-023",
+        inStock: 4
+    },
+    {
+        id: 24,
+        name: "Outdoor Fire Pit",
+        category: "outdoor",
+        style: "industrial",
+        material: "metal",
+        color: "black",
+        price: 649,
+        rating: 4,
+        availability: "in-stock",
+        features: [],
+        image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&auto=format&fit=crop",
+        description: "Steel fire pit with mesh cover. Creates cozy outdoor ambiance.",
+        dimensions: "Dia: 36\" × H: 24\"",
+        sku: "OUT-024",
+        inStock: 12
+    }
+];
+
+// State management
+let currentFilters = {
+    category: [],
+    style: [],
+    material: [],
+    color: [],
+    availability: [],
+    rating: [],
+    features: [],
+    priceMax: 10000,
+    sortBy: 'featured'
+};
+
+let currentView = 'grid';
+
+// DOM Elements
+const filterSidebar = document.getElementById('filterSidebar');
+const filterToggle = document.getElementById('filterToggle');
+const closeFilters = document.getElementById('closeFilters');
+const clearFilters = document.getElementById('clearFilters');
+const appliedFiltersContainer = document.getElementById('appliedFilters');
+const productGrid = document.getElementById('productGrid');
+const resultsCount = document.getElementById('resultsCount');
+const sortSelect = document.getElementById('sortSelect');
+const viewBtns = document.querySelectorAll('.view-btn');
+const priceRange = document.getElementById('priceRange');
+const maxPriceLabel = document.getElementById('maxPrice');
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    setupEventListeners();
+    renderProducts();
+});
+
+// Event Listeners
+function setupEventListeners() {
+    // Filter toggle (mobile)
+    if (filterToggle) {
+        filterToggle.addEventListener('click', () => {
+            filterSidebar.classList.add('active');
+        });
+    }
+
+    if (closeFilters) {
+        closeFilters.addEventListener('click', () => {
+            filterSidebar.classList.remove('active');
+        });
+    }
+
+    // Clear all filters
+    if (clearFilters) {
+        clearFilters.addEventListener('click', () => {
+            resetFilters();
+        });
+    }
+
+    // Checkbox filters
+    document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', handleFilterChange);
+    });
+
+    // Price range
+    if (priceRange) {
+        priceRange.addEventListener('input', (e) => {
+            const value = e.target.value;
+            currentFilters.priceMax = parseInt(value);
+            maxPriceLabel.textContent = value >= 10000 ? '$10,000+' : `$${parseInt(value).toLocaleString()}`;
+            renderProducts();
+            updateAppliedFilters();
+        });
+    }
+
+    // Price presets
+    document.querySelectorAll('.price-preset').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const max = parseInt(e.target.dataset.max);
+            priceRange.value = max;
+            currentFilters.priceMax = max;
+            maxPriceLabel.textContent = max >= 10000 ? '$10,000+' : `$${max.toLocaleString()}`;
+            
+            // Update active state
+            document.querySelectorAll('.price-preset').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            renderProducts();
+            updateAppliedFilters();
+        });
+    });
+
+    // Sort select
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentFilters.sortBy = e.target.value;
+            renderProducts();
+        });
+    }
+
+    // View toggle
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            viewBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentView = e.target.dataset.view;
+            
+            if (currentView === 'list') {
+                productGrid.classList.add('list-view');
+            } else {
+                productGrid.classList.remove('list-view');
+            }
+        });
+    });
+}
+
+// Handle filter changes
+function handleFilterChange(e) {
+    const filterType = e.target.name;
+    const filterValue = e.target.value;
+    
+    if (e.target.checked) {
+        if (!currentFilters[filterType].includes(filterValue)) {
+            currentFilters[filterType].push(filterValue);
+        }
+    } else {
+        currentFilters[filterType] = currentFilters[filterType].filter(v => v !== filterValue);
+    }
+    
+    renderProducts();
+    updateAppliedFilters();
+}
+
+// Reset all filters
+function resetFilters() {
+    currentFilters = {
+        category: [],
+        style: [],
+        material: [],
+        color: [],
+        availability: [],
+        rating: [],
+        features: [],
+        priceMax: 10000,
+        sortBy: 'featured'
+    };
+    
+    // Uncheck all checkboxes
+    document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+    });
+    
+    // Reset price range
+    if (priceRange) {
+        priceRange.value = 10000;
+        maxPriceLabel.textContent = '$10,000+';
+    }
+    
+    // Reset price presets
+    document.querySelectorAll('.price-preset').forEach(btn => btn.classList.remove('active'));
+    
+    renderProducts();
+    updateAppliedFilters();
+}
+
+// Update applied filters display
+function updateAppliedFilters() {
+    appliedFiltersContainer.innerHTML = '';
+    
+    Object.keys(currentFilters).forEach(filterType => {
+        if (Array.isArray(currentFilters[filterType])) {
+            currentFilters[filterType].forEach(value => {
+                const tag = createFilterTag(filterType, value);
+                appliedFiltersContainer.appendChild(tag);
+            });
+        }
+    });
+    
+    // Add price filter tag if not max
+    if (currentFilters.priceMax < 10000) {
+        const tag = createFilterTag('price', `Under $${currentFilters.priceMax.toLocaleString()}`);
+        appliedFiltersContainer.appendChild(tag);
+    }
+}
+
+// Create filter tag element
+function createFilterTag(type, value) {
+    const tag = document.createElement('div');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `
+        ${value}
+        <button onclick="removeFilter('${type}', '${value}')">×</button>
+    `;
+    return tag;
+}
+
+// Remove individual filter
+function removeFilter(type, value) {
+    if (type === 'price') {
+        currentFilters.priceMax = 10000;
+        priceRange.value = 10000;
+        maxPriceLabel.textContent = '$10,000+';
+        document.querySelectorAll('.price-preset').forEach(btn => btn.classList.remove('active'));
+    } else {
+        currentFilters[type] = currentFilters[type].filter(v => v !== value);
+        
+        // Uncheck the corresponding checkbox
+        const checkbox = document.querySelector(`input[name="${type}"][value="${value}"]`);
+        if (checkbox) checkbox.checked = false;
+    }
+    
+    renderProducts();
+    updateAppliedFilters();
+}
+
+// Filter products
+function filterProducts() {
+    return products.filter(product => {
+        // Category filter
+        if (currentFilters.category.length > 0 && !currentFilters.category.includes(product.category)) {
+            return false;
+        }
+        
+        // Style filter
+        if (currentFilters.style.length > 0 && !currentFilters.style.includes(product.style)) {
+            return false;
+        }
+        
+        // Material filter
+        if (currentFilters.material.length > 0 && !currentFilters.material.includes(product.material)) {
+            return false;
+        }
+        
+        // Color filter
+        if (currentFilters.color.length > 0 && !currentFilters.color.includes(product.color)) {
+            return false;
+        }
+        
+        // Availability filter
+        if (currentFilters.availability.length > 0 && !currentFilters.availability.includes(product.availability)) {
+            return false;
+        }
+        
+        // Rating filter
+        if (currentFilters.rating.length > 0) {
+            const minRating = Math.min(...currentFilters.rating.map(r => parseInt(r)));
+            if (product.rating < minRating) return false;
+        }
+        
+        // Features filter
+        if (currentFilters.features.length > 0) {
+            const hasFeature = currentFilters.features.some(f => product.features.includes(f));
+            if (!hasFeature) return false;
+        }
+        
+        // Price filter
+        if (product.price > currentFilters.priceMax) {
+            return false;
+        }
+        
+        return true;
+    });
+}
+
+// Sort products
+function sortProducts(products) {
+    const sorted = [...products];
+    
+    switch (currentFilters.sortBy) {
+        case 'price-low':
+            return sorted.sort((a, b) => a.price - b.price);
+        case 'price-high':
+            return sorted.sort((a, b) => b.price - a.price);
+        case 'rating':
+            return sorted.sort((a, b) => b.rating - a.rating);
+        case 'newest':
+            return sorted.reverse();
+        case 'bestselling':
+        case 'featured':
+        default:
+            return sorted;
+    }
+}
+
+// Render products
+function renderProducts() {
+    let filtered = filterProducts();
+    let sorted = sortProducts(filtered);
+    
+    // Apply pagination
+    const paginatedProducts = pagination.paginate(sorted);
+    const totalPages = pagination.getTotalPages(sorted.length);
+    
+    // Update results count
+    const start = (pagination.currentPage - 1) * pagination.itemsPerPage + 1;
+    const end = Math.min(start + paginatedProducts.length - 1, sorted.length);
+    resultsCount.textContent = `Showing ${start}-${end} of ${sorted.length} product${sorted.length !== 1 ? 's' : ''}`;
+    
+    // Render product cards
+    productGrid.innerHTML = paginatedProducts.map(product => createProductCard(product)).join('');
+    
+    // Render pagination
+    const paginationContainer = document.querySelector('.pagination');
+    if (paginationContainer) {
+        paginationContainer.innerHTML = pagination.renderPagination(sorted.length, 'renderProducts()');
+    }
+    
+    // Scroll to top of product grid
+    if (pagination.currentPage > 1) {
+        productGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    // Close mobile filter sidebar after applying filters
+    if (window.innerWidth <= 968) {
+        filterSidebar.classList.remove('active');
+    }
+}
+
+// Create product card HTML
+function createProductCard(product) {
+    const badges = product.features.map(feature => {
+        const badgeClass = feature === 'new' ? 'badge-new' : feature === 'sale' ? 'badge-sale' : 'badge-eco';
+        const badgeText = feature === 'eco-friendly' ? 'Eco' : feature;
+        return `<span class="badge ${badgeClass}">${badgeText}</span>`;
+    }).join('');
+    
+    const stars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
+    const inWishlist = wishlist && wishlist.has(product.id);
+    const price = formatPrice ? formatPrice(product.price) : `$${product.price.toLocaleString()}`;
+    
+    return `
+        <div class="product-card-shop">
+            <div class="product-image-wrapper">
+                <img src="${product.image}" alt="${product.name}" class="product-img">
+                ${badges ? `<div class="product-badges">${badges}</div>` : ''}
+                <div class="product-actions-overlay">
+                    <button class="quick-view-btn" onclick="openQuickView(${product.id})" title="Quick View">👁</button>
+                    <button class="wishlist-btn ${inWishlist ? 'active' : ''}" 
+                            onclick="toggleWishlist(${product.id})" 
+                            title="Add to Wishlist">
+                        ${inWishlist ? '♥' : '♡'}
+                    </button>
+                </div>
+            </div>
+            <div class="product-info-shop">
+                <div class="product-category-tag">${product.category}</div>
+                <h3 class="product-name">${product.name}</h3>
+                <div class="product-rating">
+                    <span class="stars">${stars}</span>
+                    <span class="rating-count">(${Math.floor(Math.random() * 50) + 10})</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">${price}</span>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        </div>
+    `;
+}
+
+// Add to cart function
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product && cart) {
+        cart.addItem(product);
+    }
+}
+
+// Toggle wishlist function
+function toggleWishlist(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product && wishlist) {
+        wishlist.toggle(product);
+        renderProducts(); // Re-render to update wishlist button states
+    }
+}
+
+// Make removeFilter available globally
+window.removeFilter = removeFilter;

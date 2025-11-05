@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Verification Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #222;
+        }
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 1rem;
+        }
+        .status.pass {
+            background: #27AE60;
+            color: white;
+        }
+        .status.fail {
+            background: #E74C3C;
+            color: white;
+        }
+        .status.pending {
+            background: #F39C12;
+            color: white;
+        }
+        .test-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .test-item:last-child {
+            border-bottom: none;
+        }
+        button {
+            background: #CC5500;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        button:hover {
+            background: #4A4A4A;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 EC Interiors Shop - Verification Test</h1>
+    
+    <div class="test-section">
+        <h2>File Checks <span class="status pending" id="fileStatus">PENDING</span></h2>
+        <button onclick="checkFiles()">Run File Checks</button>
+        <div class="result" id="fileResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Product Data <span class="status pending" id="productStatus">PENDING</span></h2>
+        <button onclick="checkProducts()">Check Products</button>
+        <div class="result" id="productResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Feature Tests <span class="status pending" id="featureStatus">PENDING</span></h2>
+        <button onclick="testFeatures()">Test Features</button>
+        <div class="result" id="featureResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Quick Actions</h2>
+        <button onclick="window.location.href='shop.html'">Open Shop Page</button>
+        <button onclick="clearStorage()">Clear LocalStorage</button>
+        <button onclick="window.location.reload()">Refresh Page</button>
+    </div>
+
+    <script src="shop.js"></script>
+    <script src="shop-features.js"></script>
+    <script>
+        function checkFiles() {
+            const results = [];
+            const fileStatus = document.getElementById('fileStatus');
+            const fileResults = document.getElementById('fileResults');
+            
+            // Check if products array exists
+            if (typeof products !== 'undefined') {
+                results.push(`✅ shop.js loaded successfully`);
+                results.push(`   Products array found: ${products.length} products`);
+            } else {
+                results.push(`❌ shop.js not loaded or products array missing`);
+            }
+
+            // Check if cart class exists
+            if (typeof ShoppingCart !== 'undefined') {
+                results.push(`✅ ShoppingCart class found`);
+            } else {
+                results.push(`❌ ShoppingCart class not found`);
+            }
+
+            // Check if wishlist class exists
+            if (typeof Wishlist !== 'undefined') {
+                results.push(`✅ Wishlist class found`);
+            } else {
+                results.push(`❌ Wishlist class not found`);
+            }
+
+            // Check if pagination class exists
+            if (typeof Pagination !== 'undefined') {
+                results.push(`✅ Pagination class found`);
+            } else {
+                results.push(`❌ Pagination class not found`);
+            }
+
+            // Check functions
+            const functions = ['openQuickView', 'formatPrice', 'changeCurrency', 'changeLanguage'];
+            functions.forEach(fn => {
+                if (typeof window[fn] === 'function') {
+                    results.push(`✅ Function ${fn} exists`);
+                } else {
+                    results.push(`❌ Function ${fn} missing`);
+                }
+            });
+
+            const hasErrors = results.some(r => r.includes('❌'));
+            fileStatus.textContent = hasErrors ? 'FAIL' : 'PASS';
+            fileStatus.className = 'status ' + (hasErrors ? 'fail' : 'pass');
+            fileResults.textContent = results.join('\n');
+        }
+
+        function checkProducts() {
+            const results = [];
+            const productStatus = document.getElementById('productStatus');
+            const productResults = document.getElementById('productResults');
+
+            if (typeof products === 'undefined') {
+                results.push('❌ Products array not found!');
+                productStatus.textContent = 'FAIL';
+                productStatus.className = 'status fail';
+                productResults.textContent = results.join('\n');
+                return;
+            }
+
+            results.push(`Total Products: ${products.length}`);
+            results.push('');
+
+            // Count by category
+            const categories = {};
+            products.forEach(p => {
+                categories[p.category] = (categories[p.category] || 0) + 1;
+            });
+            results.push('Products by Category:');
+            Object.keys(categories).forEach(cat => {
+                results.push(`  ${cat}: ${categories[cat]}`);
+            });
+            results.push('');
+
+            // Count by style
+            const styles = {};
+            products.forEach(p => {
+                styles[p.style] = (styles[p.style] || 0) + 1;
+            });
+            results.push('Products by Style:');
+            Object.keys(styles).forEach(style => {
+                results.push(`  ${style}: ${styles[style]}`);
+            });
+            results.push('');
+
+            // Price range
+            const prices = products.map(p => p.price);
+            results.push(`Price Range: $${Math.min(...prices)} - $${Math.max(...prices)}`);
+            results.push('');
+
+            // Check for required fields
+            const requiredFields = ['id', 'name', 'category', 'price', 'image', 'description', 'dimensions', 'sku'];
+            const missingFields = [];
+            products.forEach((p, i) => {
+                requiredFields.forEach(field => {
+                    if (!p[field]) {
+                        missingFields.push(`Product ${i + 1} missing: ${field}`);
+                    }
+                });
+            });
+
+            if (missingFields.length > 0) {
+                results.push('❌ Missing Fields:');
+                missingFields.forEach(m => results.push(`  ${m}`));
+            } else {
+                results.push('✅ All products have required fields');
+            }
+
+            productStatus.textContent = missingFields.length > 0 ? 'FAIL' : 'PASS';
+            productStatus.className = 'status ' + (missingFields.length > 0 ? 'fail' : 'pass');
+            productResults.textContent = results.join('\n');
+        }
+
+        function testFeatures() {
+            const results = [];
+            const featureStatus = document.getElementById('featureStatus');
+            const featureResults = document.getElementById('featureResults');
+
+            // Test cart
+            try {
+                const testCart = new ShoppingCart();
+                results.push('✅ Cart initialized');
+                
+                if (typeof products !== 'undefined' && products.length > 0) {
+                    testCart.addItem(products[0], 1);
+                    results.push(`✅ Added item to cart: ${testCart.items.length} item(s)`);
+                    testCart.clear();
+                    results.push('✅ Cart cleared');
+                }
+            } catch (e) {
+                results.push(`❌ Cart error: ${e.message}`);
+            }
+
+            // Test wishlist
+            try {
+                const testWishlist = new Wishlist();
+                results.push('✅ Wishlist initialized');
+                
+                if (typeof products !== 'undefined' && products.length > 0) {
+                    testWishlist.toggle(products[0]);
+                    results.push(`✅ Added item to wishlist: ${testWishlist.items.length} item(s)`);
+                    testWishlist.items = [];
+                    testWishlist.save();
+                }
+            } catch (e) {
+                results.push(`❌ Wishlist error: ${e.message}`);
+            }
+
+            // Test pagination
+            try {
+                const testPagination = new Pagination(12);
+                results.push('✅ Pagination initialized');
+                
+                if (typeof products !== 'undefined') {
+                    const page1 = testPagination.paginate(products);
+                    results.push(`✅ Page 1: ${page1.length} products`);
+                    
+                    testPagination.goToPage(2, products.length);
+                    const page2 = testPagination.paginate(products);
+                    results.push(`✅ Page 2: ${page2.length} products`);
+                }
+            } catch (e) {
+                results.push(`❌ Pagination error: ${e.message}`);
+            }
+
+            // Test currency
+            try {
+                const testPrice = formatPrice(1000);
+                results.push(`✅ Currency formatting works: ${testPrice}`);
+            } catch (e) {
+                results.push(`❌ Currency error: ${e.message}`);
+            }
+
+            // Test localStorage
+            try {
+                localStorage.setItem('test', 'value');
+                const val = localStorage.getItem('test');
+                localStorage.removeItem('test');
+                results.push('✅ LocalStorage working');
+            } catch (e) {
+                results.push(`❌ LocalStorage error: ${e.message}`);
+            }
+
+            const hasErrors = results.some(r => r.includes('❌'));
+            featureStatus.textContent = hasErrors ? 'FAIL' : 'PASS';
+            featureStatus.className = 'status ' + (hasErrors ? 'fail' : 'pass');
+            featureResults.textContent = results.join('\n');
+        }
+
+        function clearStorage() {
+            localStorage.clear();
+            alert('LocalStorage cleared! Refresh the page to reset cart and wishlist.');
+        }
+
+        // Auto-run checks on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                checkFiles();
+                checkProducts();
+                testFeatures();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

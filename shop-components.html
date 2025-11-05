@@ -1,0 +1,85 @@
+<!-- ADD THESE COMPONENTS TO shop.html -->
+
+<!-- 1. ADD TO NAVIGATION (after hamburger menu, before </nav> closing tag) -->
+<div class="nav-icons">
+    <!-- Currency Selector -->
+    <div class="currency-selector">
+        <button id="currencyBtn" onclick="document.getElementById('currencyDropdown').style.display='block'">
+            $ USD
+        </button>
+        <div id="currencyDropdown" class="selector-dropdown">
+            <button onclick="changeCurrency('USD')">$ USD - US Dollar</button>
+            <button onclick="changeCurrency('EUR')">€ EUR - Euro</button>
+            <button onclick="changeCurrency('GBP')">£ GBP - British Pound</button>
+            <button onclick="changeCurrency('CAD')">C$ CAD - Canadian Dollar</button>
+            <button onclick="changeCurrency('AUD')">A$ AUD - Australian Dollar</button>
+            <button onclick="changeCurrency('JPY')">¥ JPY - Japanese Yen</button>
+        </div>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button id="languageBtn" onclick="document.getElementById('languageDropdown').style.display='block'">
+            English
+        </button>
+        <div id="languageDropdown" class="selector-dropdown">
+            <button onclick="changeLanguage('en')">English</button>
+            <button onclick="changeLanguage('es')">Español</button>
+            <button onclick="changeLanguage('fr')">Français</button>
+            <button onclick="changeLanguage('de')">Deutsch</button>
+            <button onclick="changeLanguage('it')">Italiano</button>
+            <button onclick="changeLanguage('ja')">日本語</button>
+        </div>
+    </div>
+
+    <!-- Wishlist Icon -->
+    <button class="nav-icon-btn" onclick="window.location.href='wishlist.html'" title="Wishlist">
+        ♡
+        <span class="icon-badge" id="wishlistBadge">0</span>
+    </button>
+
+    <!-- Cart Icon -->
+    <button class="nav-icon-btn" onclick="openCartSidebar()" title="Shopping Cart">
+        🛒
+        <span class="icon-badge" id="cartBadge">0</span>
+    </button>
+</div>
+
+<!-- 2. ADD BEFORE FOOTER (Quick View Modal) -->
+<div id="quickViewModal" class="modal">
+    <div class="modal-content" id="quickViewContent">
+        <!-- Content will be dynamically inserted -->
+    </div>
+</div>
+
+<!-- 3. ADD BEFORE FOOTER (Cart Sidebar) -->
+<div id="cartOverlay" class="cart-overlay" onclick="closeCartSidebar()"></div>
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Shopping Cart</h3>
+        <button onclick="closeCartSidebar()" class="close-cart">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <!-- Cart items will be dynamically inserted -->
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <button class="cta-button" onclick="window.location.href='checkout.html'">
+            Proceed to Checkout
+        </button>
+        <button class="secondary-button" onclick="closeCartSidebar()">
+            Continue Shopping
+        </button>
+    </div>
+</div>
+
+<!-- 4. UPDATE SCRIPT TAGS (replace existing script tags with these) -->
+<script src="loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+<script src="shop.js"></script>
+<script src="shop-features.js"></script>

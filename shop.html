@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - EC Interiors | Modern Interior Design & Furniture</title>
+    <meta name="description" content="Browse our curated collection of modern furniture, lighting, textiles, and decor. Premium interior design products with worldwide shipping.">
+    <link rel="stylesheet" href="loader.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="shop-features.css">
+    <link rel="stylesheet" href="shop-header.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loader will be injected here by loader.js -->
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">EC INTERIORS</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                    <a href="#products" class="nav-link">Products</a>
+                    <div class="dropdown-content">
+                        <a href="#sofas">Sofas</a>
+                        <a href="#tables">Tables</a>
+                        <a href="#chairs">Chairs</a>
+                        <a href="#beds">Beds</a>
+                        <a href="#armchairs">Armchairs</a>
+                        <a href="#coffee-tables">Coffee Tables</a>
+                        <a href="#lighting">Lighting</a>
+                        <a href="#accessories">Accessories</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="#brands" class="nav-link">Brands</a></li>
+                <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+                <li class="nav-item"><a href="index.html#about" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            
+            <!-- Shop-specific icons -->
+            <div class="nav-icons">
+                <!-- Currency Selector -->
+                <div class="currency-selector">
+                    <button id="currencyBtn" onclick="document.getElementById('currencyDropdown').style.display='block'">
+                        $ USD
+                    </button>
+                    <div id="currencyDropdown" class="selector-dropdown">
+                        <button onclick="changeCurrency('USD')">$ USD - US Dollar</button>
+                        <button onclick="changeCurrency('EUR')">€ EUR - Euro</button>
+                        <button onclick="changeCurrency('GBP')">£ GBP - British Pound</button>
+                        <button onclick="changeCurrency('CAD')">C$ CAD - Canadian Dollar</button>
+                        <button onclick="changeCurrency('AUD')">A$ AUD - Australian Dollar</button>
+                        <button onclick="changeCurrency('JPY')">¥ JPY - Japanese Yen</button>
+                    </div>
+                </div>
+
+                <!-- Wishlist Icon -->
+                <button class="nav-icon-btn" onclick="window.location.href='wishlist.html'" title="Wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="icon-badge" id="wishlistBadge">0</span>
+                </button>
+
+                <!-- Cart Icon -->
+                <button class="nav-icon-btn" onclick="openCartSidebar()" title="Shopping Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="icon-badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <button class="close-mobile-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav">
+                <li class="mobile-nav-item">
+                    <a href="#products" class="mobile-nav-link">Products</a>
+                    <div class="mobile-submenu">
+                        <a href="#sofas">Sofas</a>
+                        <a href="#tables">Tables</a>
+                        <a href="#chairs">Chairs</a>
+                        <a href="#beds">Beds</a>
+                        <a href="#armchairs">Armchairs</a>
+                        <a href="#coffee-tables">Coffee Tables</a>
+                        <a href="#lighting">Lighting</a>
+                        <a href="#accessories">Accessories</a>
+                    </div>
+                </li>
+                <li class="mobile-nav-item"><a href="#brands" class="mobile-nav-link">Brands</a></li>
+                <li class="mobile-nav-item"><a href="shop.html" class="mobile-nav-link">Shop</a></li>
+                <li class="mobile-nav-item"><a href="index.html#about" class="mobile-nav-link">About Us</a></li>
+                <li class="mobile-nav-item"><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
+            </ul>
+            <div class="mobile-actions">
+                <div class="mobile-currency">
+                    <select onchange="changeCurrency(this.value)">
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="GBP">£ GBP</option>
+                        <option value="CAD">C$ CAD</option>
+                        <option value="AUD">A$ AUD</option>
+                        <option value="JPY">¥ JPY</option>
+                    </select>
+                </div>
+                <div class="mobile-account">
+                    <a href="account.html" class="mobile-account-link">
+                        <i class="fas fa-user"></i> My Account
+                    </a>
+                    <a href="wishlist.html" class="mobile-account-link">
+                        <i class="fas fa-heart"></i> Wishlist
+                        <span class="mobile-badge" id="mobileWishlistBadge">0</span>
+                    </a>
+                    <a href="#" class="mobile-account-link" onclick="openCartSidebar()">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                        <span class="mobile-badge" id="mobileCartBadge">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Hero Section -->
+    <section class="shop-hero">
+        <div class="shop-hero-content">
+            <h1>Shop Our Collection</h1>
+            <p>Curated furniture, lighting, and decor for modern living</p>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Shop</span>
+        </nav>
+    </div>
+
+    <!-- Shop Main Content -->
+    <div class="shop-container">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar" id="filterSidebar">
+            <div class="filter-header">
+                <h3>Filters</h3>
+                <button class="clear-filters" id="clearFilters">Clear All</button>
+                <button class="close-filters" id="closeFilters">✕</button>
+            </div>
+
+            <!-- Applied Filters -->
+            <div class="applied-filters" id="appliedFilters"></div>
+
+            <!-- Category Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Category</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="category" value="furniture"> Furniture</label>
+                    <label><input type="checkbox" name="category" value="lighting"> Lighting</label>
+                    <label><input type="checkbox" name="category" value="textiles"> Textiles & Soft Furnishings</label>
+                    <label><input type="checkbox" name="category" value="decor"> Decor & Accessories</label>
+                    <label><input type="checkbox" name="category" value="outdoor"> Outdoor & Patio</label>
+                    <label><input type="checkbox" name="category" value="office"> Office & Workspace</label>
+                </div>
+            </div>
+
+            <!-- Style Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Style</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="style" value="minimalist"> Minimalist</label>
+                    <label><input type="checkbox" name="style" value="scandinavian"> Scandinavian</label>
+                    <label><input type="checkbox" name="style" value="industrial"> Industrial</label>
+                    <label><input type="checkbox" name="style" value="mid-century"> Mid-Century Modern</label>
+                    <label><input type="checkbox" name="style" value="luxury"> Luxury</label>
+                    <label><input type="checkbox" name="style" value="sustainable"> Sustainable</label>
+                </div>
+            </div>
+
+            <!-- Material Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Material</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="material" value="wood"> Wood</label>
+                    <label><input type="checkbox" name="material" value="metal"> Metal</label>
+                    <label><input type="checkbox" name="material" value="glass"> Glass</label>
+                    <label><input type="checkbox" name="material" value="fabric"> Fabric</label>
+                    <label><input type="checkbox" name="material" value="leather"> Leather</label>
+                    <label><input type="checkbox" name="material" value="marble"> Marble</label>
+                </div>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Price Range</h4>
+                <div class="price-range">
+                    <input type="range" id="priceRange" min="0" max="10000" step="100" value="10000">
+                    <div class="price-labels">
+                        <span>$0</span>
+                        <span id="maxPrice">$10,000+</span>
+                    </div>
+                </div>
+                <div class="price-presets">
+                    <button class="price-preset" data-min="0" data-max="500">Under $500</button>
+                    <button class="price-preset" data-min="500" data-max="1000">$500 - $1,000</button>
+                    <button class="price-preset" data-min="1000" data-max="2500">$1,000 - $2,500</button>
+                    <button class="price-preset" data-min="2500" data-max="10000">$2,500+</button>
+                </div>
+            </div>
+
+            <!-- Color Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Color</h4>
+                <div class="color-swatches">
+                    <label class="color-swatch" style="background: #FFFFFF; border: 1px solid #ddd;" title="White">
+                        <input type="checkbox" name="color" value="white">
+                    </label>
+                    <label class="color-swatch" style="background: #222222;" title="Black">
+                        <input type="checkbox" name="color" value="black">
+                    </label>
+                    <label class="color-swatch" style="background: #8B7355;" title="Brown">
+                        <input type="checkbox" name="color" value="brown">
+                    </label>
+                    <label class="color-swatch" style="background: #4A4A4A;" title="Grey">
+                        <input type="checkbox" name="color" value="grey">
+                    </label>
+                    <label class="color-swatch" style="background: #CC5500;" title="Orange">
+                        <input type="checkbox" name="color" value="orange">
+                    </label>
+                    <label class="color-swatch" style="background: #2E5A3D;" title="Green">
+                        <input type="checkbox" name="color" value="green">
+                    </label>
+                    <label class="color-swatch" style="background: #1E3A5F;" title="Blue">
+                        <input type="checkbox" name="color" value="blue">
+                    </label>
+                    <label class="color-swatch" style="background: #EDE8D0;" title="Beige">
+                        <input type="checkbox" name="color" value="beige">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Availability Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Availability</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="availability" value="in-stock"> In Stock</label>
+                    <label><input type="checkbox" name="availability" value="backorder"> Backorder</label>
+                    <label><input type="checkbox" name="availability" value="pre-order"> Pre-Order</label>
+                </div>
+            </div>
+
+            <!-- Rating Filter -->
+            <div class="filter-group">
+                <h4 class="filter-title">Customer Rating</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="rating" value="5"> ★★★★★ (5)</label>
+                    <label><input type="checkbox" name="rating" value="4"> ★★★★☆ (4+)</label>
+                    <label><input type="checkbox" name="rating" value="3"> ★★★☆☆ (3+)</label>
+                </div>
+            </div>
+
+            <!-- Special Features -->
+            <div class="filter-group">
+                <h4 class="filter-title">Special Features</h4>
+                <div class="filter-options">
+                    <label><input type="checkbox" name="features" value="sale"> On Sale</label>
+                    <label><input type="checkbox" name="features" value="new"> New Arrivals</label>
+                    <label><input type="checkbox" name="features" value="free-shipping"> Free Shipping</label>
+                    <label><input type="checkbox" name="features" value="eco-friendly"> Eco-Friendly</label>
+                    <label><input type="checkbox" name="features" value="customizable"> Customizable</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Shop Content -->
+        <main class="shop-main">
+            <!-- Toolbar -->
+            <div class="shop-toolbar">
+                <div class="toolbar-left">
+                    <button class="filter-toggle" id="filterToggle">
+                        <span>☰</span> Filters
+                    </button>
+                    <span class="results-count" id="resultsCount">Showing 48 products</span>
+                </div>
+                <div class="toolbar-right">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" title="Grid View">⊞</button>
+                        <button class="view-btn" data-view="list" title="List View">☰</button>
+                    </div>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="featured">Featured</option>
+                        <option value="newest">Newest Arrivals</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Customer Rating</option>
+                        <option value="bestselling">Best Selling</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be dynamically loaded by JavaScript -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" disabled>Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>EC INTERIORS</h4>
+                    <p>Unique, modern and high quality furniture for your dream home.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="index.html#brands">Brands</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">Shipping & Delivery</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>123 Design Street</li>
+                        <li>Interior City, IC 12345</li>
+                        <li>info@ecinteriors.com</li>
+                        <li>+1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 EC Interiors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content" id="quickViewContent">
+            <!-- Content will be dynamically inserted -->
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartOverlay" class="cart-overlay" onclick="closeCartSidebar()"></div>
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button onclick="closeCartSidebar()" class="close-cart">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically inserted -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="cta-button" onclick="window.location.href='checkout.html'">
+                Proceed to Checkout
+            </button>
+            <button class="secondary-button" onclick="closeCartSidebar()">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- Loader Script -->
+    <script src="loader.js"></script>
+    
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+    <script src="shop.js"></script>
+    <script src="shop-features.js"></script>
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+        const closeMobileMenu = document.querySelector('.close-mobile-menu');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item > .mobile-nav-link');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeMobileMenu) {
+            closeMobileMenu.addEventListener('click', function() {
+                closeMenu();
+            });
+        }
+
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', function() {
+                closeMenu();
+            });
+        }
+
+        // Toggle submenu on mobile
+        mobileNavItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.nextElementSibling && this.nextElementSibling.classList.contains('mobile-submenu')) {
+                    e.preventDefault();
+                    this.parentElement.classList.toggle('active');
+                }
+            });
+        });
+
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.currency-selector')) {
+                document.querySelectorAll('.selector-dropdown').forEach(dropdown => {
+                    dropdown.style.display = 'none';
+                });
+            }
+        });
+
+        // Initialize cart and wishlist badges
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('#cartBadge, #mobileCartBadge').forEach(badge => {
+                badge.textContent = totalItems > 0 ? totalItems : '0';
+                badge.style.display = totalItems > 0 ? 'flex' : 'none';
+            });
+        }
+
+        function updateWishlistBadge() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            document.querySelectorAll('#wishlistBadge, #mobileWishlistBadge').forEach(badge => {
+                badge.textContent = wishlist.length > 0 ? wishlist.length : '0';
+                badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            });
+        }
+
+        // Initialize badges on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            updateWishlistBadge();
+            
+            // Set initial navbar state
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
