@@ -742,7 +742,9 @@ function createProductCard(product) {
     return `
         <div class="product-card-shop">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-img">
+                <a href="product.html?id=${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="product-img">
+                </a>
                 ${badges ? `<div class="product-badges">${badges}</div>` : ''}
                 <div class="product-actions-overlay">
                     <button class="quick-view-btn" onclick="openQuickView(${product.id})" title="Quick View">👁</button>
@@ -755,7 +757,7 @@ function createProductCard(product) {
             </div>
             <div class="product-info-shop">
                 <div class="product-category-tag">${product.category}</div>
-                <h3 class="product-name">${product.name}</h3>
+                <h3 class="product-name"><a href="product.html?id=${product.id}">${product.name}</a></h3>
                 <div class="product-rating">
                     <span class="stars">${stars}</span>
                     <span class="rating-count">(${Math.floor(Math.random() * 50) + 10})</span>

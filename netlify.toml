@@ -6,6 +6,10 @@
   command = ""
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Ensure correct content types and caching for assets
 [[headers]]
   for = "/assets/*"

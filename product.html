@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product • EC Interiors</title>
+  <link rel="stylesheet" href="loader.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="shop-features.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .product-page { max-width: 1100px; margin: 120px auto 80px; padding: 0 20px; }
+    .breadcrumb { margin-bottom: 1rem; color: #666; }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .product-gallery img { width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    .product-title { font-size: 2rem; margin-bottom: .5rem; }
+    .product-price { font-size: 1.5rem; margin: .5rem 0 1rem; color: var(--primary-color); }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1.5rem; margin: 1rem 0 1.5rem; }
+    .specs .label { font-weight: 600; color: #555; }
+    .qty { display: inline-flex; align-items: center; gap: .5rem; margin-right: 1rem; }
+    .qty input { width: 64px; padding: .5rem; text-align: center; border: 1px solid #ddd; border-radius: 8px; }
+    .actions { display:flex; align-items:center; gap: .75rem; margin-top: .5rem; }
+    .desc { margin-top: 1rem; color: #444; }
+    @media (max-width: 968px){ .product-grid{ grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo"><a href="index.html">EC INTERIORS</a></div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html#products" class="nav-link" data-i18n="nav.products">Products</a></li>
+        <li class="nav-item"><a href="shop.html" class="nav-link" data-i18n="nav.shop">Shop</a></li>
+        <li class="nav-item"><a href="index.html#about" class="nav-link" data-i18n="nav.about">About Us</a></li>
+        <li class="nav-item"><a href="index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="nav-icon-btn" onclick="openCartSidebar()" title="Cart"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cartBadge">0</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="product-page">
+    <div class="breadcrumb"><a href="shop.html">Shop</a> / <span id="crumbName">Product</span></div>
+    <div class="product-grid">
+      <div class="product-gallery">
+        <img id="productImage" alt="" />
+      </div>
+      <div>
+        <h1 id="productTitle" class="product-title">Product</h1>
+        <div id="productPrice" class="product-price">$0.00</div>
+        <div class="specs">
+          <div class="label">SKU</div><div id="productSku">—</div>
+          <div class="label">Dimensions</div><div id="productDims">—</div>
+          <div class="label">Material</div><div id="productMaterial">—</div>
+          <div class="label">Availability</div><div id="productStock">—</div>
+        </div>
+        <div class="qty">
+          <label for="qtyInput">Qty</label>
+          <input id="qtyInput" type="number" min="1" value="1" />
+        </div>
+        <div class="actions">
+          <button class="add-to-cart-btn" id="addToCartBtn">Add to Cart</button>
+          <a class="secondary-button" href="shop.html">Continue Shopping</a>
+        </div>
+        <p id="productDesc" class="desc"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick View modal + Cart sidebar placeholders for shared styles -->
+  <div id="quickViewModal" class="modal" style="display:none"><div id="quickViewContent" class="modal-content"></div></div>
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header"><h3>Cart</h3><button onclick="closeCartSidebar()" class="modal-close">×</button></div>
+    <div id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span>Total</span> <strong id="cartTotal">$0.00</strong></div>
+      <button class="cta-button" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+      <button class="secondary-button" onclick="closeCartSidebar()">Continue Shopping</button>
+    </div>
+  </div>
+
+  <script src="loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="products-data.js"></script>
+  <script src="shop-features.js"></script>
+  <script src="i18n/i18n.js"></script>
+  <script src="product.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thanks • EC Interiors</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrap{max-width:720px;margin:120px auto;padding:0 20px;text-align:center}
+    .card{background:#fff;border:1px solid #eee;border-radius:12px;padding:2rem;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .status{margin-top:.5rem;color:#666}
+    .btn{margin-top:1rem;display:inline-block;border:1px solid #ddd;border-radius:10px;padding:.7rem 1rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Thanks for your order</h1>
+      <p class="status" id="status">Processing your payment...</p>
+      <a class="btn" href="shop.html">Back to Shop</a>
+    </div>
+  </div>
+  <script>
+    (async function(){
+      const pollUrl = sessionStorage.getItem('paynowPollUrl');
+      const statusEl = document.getElementById('status');
+      if(!pollUrl){ statusEl.textContent = 'Waiting for confirmation...'; return; }
+      try{
+        const res = await fetch('/.netlify/functions/payment-status', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ pollUrl }) });
+        const data = await res.json().catch(()=>({}));
+        if(res.status === 503){ statusEl.textContent = data.message || 'Payment is not configured yet.'; return; }
+        statusEl.textContent = data.status ? `Payment status: ${data.status}` : 'Awaiting confirmation...';
+        if(data.status === 'paid'){
+          try { if(window.cart) window.cart.clear(); } catch(e){}
+        }
+      }catch(e){ statusEl.textContent = 'Unable to check payment status.'; }
+    })();
+  </script>
+</body>
+</html>

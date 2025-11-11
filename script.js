@@ -5,20 +5,36 @@ gsap.registerPlugin(ScrollTrigger);
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        const navbarEl = document.querySelector('.navbar');
+        const isOpen = navMenu.classList.contains('active');
+        document.body.classList.toggle('menu-open', isOpen);
+        if (navbarEl) navbarEl.classList.toggle('menu-open', isOpen);
+    });
+}
 
 // Randomize hero video (Option A) and freeze at end
 function initHeroVideoRandomizer() {
     const videoEl = document.querySelector('.hero-video');
     if (!videoEl) return;
+    videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('webkit-playsinline', '');
+    videoEl.muted = true;
 
     // Respect reduced motion: show poster only
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const saveData = !!(connection && connection.saveData);
+    const slowNetwork = !!(connection && ((connection.effectiveType && ['slow-2g','2g'].includes(connection.effectiveType)) || (typeof connection.downlink === 'number' && connection.downlink < 1.5)));
+    const smallScreen = window.innerWidth <= 768;
+    if (reduceMotion || saveData || slowNetwork) {
         videoEl.pause();
         videoEl.removeAttribute('autoplay');
+        while (videoEl.firstChild) videoEl.removeChild(videoEl.firstChild);
+        videoEl.load();
         return;
     }
 
@@ -30,12 +46,11 @@ function initHeroVideoRandomizer() {
         { mp4: 'assets/video/modern-minimalist-bedroom-design-2025-10-17-00-05-17-utc.mp4' },
         { mp4: 'assets/video/modern-interior-design-furniture-assembly-takes-a-2025-10-16-07-40-01-utc.mp4' },
         { mp4: 'assets/video/modern-interior-design-furniture-assembly-takes-a-2025-10-17-00-47-00-utc.mp4' },
-        { mp4: 'assets/video/hero.mp4' },
-        // MOV as a fallback entry if supported by the browser
-        { mp4: 'assets/video/3d-loop-satisfying-furniture-animation-2025-10-17-00-19-09-utc.mov' },
+        { mp4: 'assets/video/hero.mp4' }
     ];
-
-    const pick = videos[Math.floor(Math.random() * videos.length)];
+    const mobileVideos = [ { mp4: 'assets/video/hero.mp4' } ];
+    const pool = smallScreen ? mobileVideos : videos;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
 
     // Remove existing <source> children and set new source
     while (videoEl.firstChild) videoEl.removeChild(videoEl.firstChild);
@@ -55,11 +70,18 @@ function initHeroVideoRandomizer() {
     videoEl.load();
 
     // Play only after the loading screen fades away
+    const heroSection = document.querySelector('.hero');
+    const isInView = () => {
+        const el = heroSection || videoEl;
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight * 0.1;
+    };
     const playWhenReady = () => {
         const tryPlay = () => {
+            if (!isInView()) return;
             const playPromise = videoEl.play();
             if (playPromise && typeof playPromise.then === 'function') {
-                playPromise.catch(() => {/* ignore autoplay block errors */});
+                playPromise.catch(() => {});
             }
         };
         if (videoEl.readyState >= 2) {
@@ -68,6 +90,19 @@ function initHeroVideoRandomizer() {
             videoEl.addEventListener('canplay', tryPlay, { once: true });
         }
     };
+
+    const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry && entry.isIntersecting) {
+            if (videoEl.readyState >= 2) {
+                const p = videoEl.play();
+                if (p && typeof p.then === 'function') p.catch(() => {});
+            }
+        } else {
+            videoEl.pause();
+        }
+    }, { threshold: 0.25 });
+    observer.observe(heroSection || videoEl);
 
     // Custom event from loader.js once it fully fades out
     window.addEventListener('loader-finished', playWhenReady, { once: true });
@@ -80,8 +115,11 @@ document.addEventListener('DOMContentLoaded', initHeroVideoRandomizer);
 // Close mobile menu when clicking on a nav link
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+        if (hamburger) hamburger.classList.remove('active');
+        if (navMenu) navMenu.classList.remove('active');
+        const navbarEl = document.querySelector('.navbar');
+        document.body.classList.remove('menu-open');
+        if (navbarEl) navbarEl.classList.remove('menu-open');
     });
 });
 
@@ -168,70 +206,80 @@ gsap.from('.about-content', {
 
 // Product Cards Animation
 const productCards = document.querySelectorAll('.product-card');
+const isSmallScreen = window.innerWidth <= 600;
+const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-productCards.forEach((card, index) => {
-    gsap.to(card, {
-        scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        delay: index * 0.1
-    });
+if (!isSmallScreen && !prefersReduced) {
+    productCards.forEach((card, index) => {
+        gsap.to(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            delay: index * 0.1
+        });
 
-    // Animate product image on hover
-    const productImage = card.querySelector('.product-image');
-    const imagePlaceholder = card.querySelector('.image-placeholder');
-    
-    card.addEventListener('mouseenter', () => {
-        gsap.to(imagePlaceholder, {
-            scale: 1.05,
-            duration: 0.5,
-            ease: 'power2.out'
+        // Animate product image on hover
+        const imagePlaceholder = card.querySelector('.image-placeholder');
+        card.addEventListener('mouseenter', () => {
+            gsap.to(imagePlaceholder, {
+                scale: 1.05,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            gsap.to(imagePlaceholder, {
+                scale: 1,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
         });
     });
-    
-    card.addEventListener('mouseleave', () => {
-        gsap.to(imagePlaceholder, {
-            scale: 1,
-            duration: 0.5,
-            ease: 'power2.out'
+} else {
+    // Minimize motion on small screens or when user prefers reduced motion
+    productCards.forEach(card => {
+        card.style.opacity = 1;
+        card.style.transform = 'none';
+    });
+}
+
+// Product Info Parallax Effect (desktop only)
+if (!isSmallScreen && !prefersReduced) {
+    productCards.forEach(card => {
+        const productInfo = card.querySelector('.product-info');
+        const productImage = card.querySelector('.product-image');
+        
+        gsap.to(productInfo, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: -30,
+            ease: 'none'
+        });
+        
+        gsap.to(productImage, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: 30,
+            ease: 'none'
         });
     });
-});
-
-// Product Info Parallax Effect
-productCards.forEach(card => {
-    const productInfo = card.querySelector('.product-info');
-    const productImage = card.querySelector('.product-image');
-    
-    gsap.to(productInfo, {
-        scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: -30,
-        ease: 'none'
-    });
-    
-    gsap.to(productImage, {
-        scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: 30,
-        ease: 'none'
-    });
-});
+}
 
 // Contact Section Animation
 gsap.from('.contact-info', {
@@ -392,8 +440,10 @@ const imageReveal = () => {
     });
 };
 
-// Call image reveal after a short delay
-setTimeout(imageReveal, 500);
+// Call image reveal after a short delay (desktop only)
+if (!isSmallScreen && !prefersReduced) {
+    setTimeout(imageReveal, 500);
+}
 
 // Cursor effect (optional - creates a custom cursor trail)
 const createCursorEffect = () => {
@@ -444,6 +494,14 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
         ScrollTrigger.refresh();
+        // If resized to desktop, ensure menu is closed
+        if (window.innerWidth > 968) {
+            if (hamburger) hamburger.classList.remove('active');
+            if (navMenu) navMenu.classList.remove('active');
+            const navbarEl = document.querySelector('.navbar');
+            document.body.classList.remove('menu-open');
+            if (navbarEl) navbarEl.classList.remove('menu-open');
+        }
     }, 250);
 });
 

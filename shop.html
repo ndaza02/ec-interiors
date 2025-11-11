@@ -14,6 +14,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+      .search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:center;padding-top:100px;z-index:1000}
+      .search-panel{background:#fff;width:min(900px,90vw);border-radius:12px;padding:1rem;box-shadow:0 10px 30px rgba(0,0,0,.2);position:relative}
+      .search-input{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:10px}
+      .search-results{margin-top:.75rem;max-height:60vh;overflow:auto}
+      .search-item{display:flex;gap:.75rem;padding:.5rem;border-radius:8px;align-items:center}
+      .search-item:hover{background:#fafafa}
+      .search-item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+      .search-close{position:absolute;top:-52px;right:0;background:#fff;border:1px solid #eee;border-radius:50%;width:40px;height:40px}
+      .nav-icons{display:flex;align-items:center;gap:.5rem}
+      .currency-selector{position:relative}
+      .currency-selector button{padding:.5rem 1rem;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:.9rem;color:var(--text-color)}
+      .currency-selector .selector-dropdown{display:none;position:absolute;right:0;top:120%;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:200px}
+      .currency-selector .selector-dropdown button{display:block;width:100%;padding:.6rem .9rem;text-align:left;border:none;background:#fff;cursor:pointer;color:var(--text-color)}
+      .currency-selector .selector-dropdown button:hover{background:#fafafa}
+      .language-selector{position:relative}
+      .language-selector button{padding:.5rem 1rem;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:.9rem;color:var(--text-color)}
+      .language-selector .selector-dropdown{display:none;position:absolute;right:0;top:120%;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden}
+      .language-selector .selector-dropdown button{display:block;width:100%;padding:.6rem .9rem;text-align:left;border:none;background:#fff;cursor:pointer;color:var(--text-color)}
+      .language-selector .selector-dropdown button:hover{background:#fafafa}
+      .nav-icon-btn{position:relative;background:none;border:none;font-size:1.3rem;cursor:pointer;padding:.5rem;color:inherit;transition:all .3s ease}
+      .nav-icon-btn:hover{transform:scale(1.1)}
+      .icon-badge{position:absolute;top:-4px;right:-4px;background:#CC5500;color:#fff;font-size:.7rem;padding:.2rem .4rem;border-radius:10px;min-width:18px;text-align:center;display:none}
+      @media (max-width:600px){
+        .search-overlay{align-items:stretch;padding-top:0}
+        .search-panel{width:100vw;height:100dvh;max-height:100dvh;border-radius:0;padding:1rem;padding-top:calc(env(safe-area-inset-top) + 12px)}
+        .search-input{padding:1rem 1.1rem;font-size:1rem}
+        .search-close{top:10px;right:10px;width:44px;height:44px;border-radius:50%;z-index:10}
+        .nav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px}
+      }
+    </style>
 </head>
 <body>
     <!-- Loader will be injected here by loader.js -->
@@ -26,7 +57,7 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item dropdown">
-                    <a href="#products" class="nav-link">Products</a>
+                    <a href="#products" class="nav-link" data-i18n="nav.products">Products</a>
                     <div class="dropdown-content">
                         <a href="#sofas">Sofas</a>
                         <a href="#tables">Tables</a>
@@ -39,9 +70,9 @@
                     </div>
                 </li>
                 <li class="nav-item"><a href="#brands" class="nav-link">Brands</a></li>
-                <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="index.html#about" class="nav-link">About Us</a></li>
-                <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="shop.html" class="nav-link" data-i18n="nav.shop">Shop</a></li>
+                <li class="nav-item"><a href="index.html#about" class="nav-link" data-i18n="nav.about">About Us</a></li>
+                <li class="nav-item"><a href="index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -49,7 +80,6 @@
                 <span class="bar"></span>
             </div>
             
-            <!-- Shop-specific icons -->
             <div class="nav-icons">
                 <!-- Currency Selector -->
                 <div class="currency-selector">
@@ -66,11 +96,25 @@
                     </div>
                 </div>
 
-                <!-- Wishlist Icon -->
-                <button class="nav-icon-btn" onclick="window.location.href='wishlist.html'" title="Wishlist">
-                    <i class="fas fa-heart"></i>
-                    <span class="icon-badge" id="wishlistBadge">0</span>
+                <!-- Search Icon -->
+                <button class="nav-icon-btn" id="openSearch" title="Search">
+                    <i class="fas fa-search"></i>
                 </button>
+
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <button id="languageBtn" onclick="document.getElementById('languageDropdown').style.display='block'">
+                        English
+                    </button>
+                    <div id="languageDropdown" class="selector-dropdown">
+                        <button onclick="changeLanguage('en')">English</button>
+                        <button onclick="changeLanguage('es')">Español</button>
+                        <button onclick="changeLanguage('fr')">Français</button>
+                        <button onclick="changeLanguage('de')">Deutsch</button>
+                        <button onclick="changeLanguage('it')">Italiano</button>
+                        <button onclick="changeLanguage('ja')">日本語</button>
+                    </div>
+                </div>
 
                 <!-- Cart Icon -->
                 <button class="nav-icon-btn" onclick="openCartSidebar()" title="Shopping Cart">
@@ -80,63 +124,9 @@
             </div>
         </div>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-overlay"></div>
-    <div class="mobile-menu">
-        <button class="close-mobile-menu">
-            <i class="fas fa-times"></i>
-        </button>
-        <div class="mobile-menu-content">
-            <ul class="mobile-nav">
-                <li class="mobile-nav-item">
-                    <a href="#products" class="mobile-nav-link">Products</a>
-                    <div class="mobile-submenu">
-                        <a href="#sofas">Sofas</a>
-                        <a href="#tables">Tables</a>
-                        <a href="#chairs">Chairs</a>
-                        <a href="#beds">Beds</a>
-                        <a href="#armchairs">Armchairs</a>
-                        <a href="#coffee-tables">Coffee Tables</a>
-                        <a href="#lighting">Lighting</a>
-                        <a href="#accessories">Accessories</a>
-                    </div>
-                </li>
-                <li class="mobile-nav-item"><a href="#brands" class="mobile-nav-link">Brands</a></li>
-                <li class="mobile-nav-item"><a href="shop.html" class="mobile-nav-link">Shop</a></li>
-                <li class="mobile-nav-item"><a href="index.html#about" class="mobile-nav-link">About Us</a></li>
-                <li class="mobile-nav-item"><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
-            </ul>
-            <div class="mobile-actions">
-                <div class="mobile-currency">
-                    <select onchange="changeCurrency(this.value)">
-                        <option value="USD">$ USD</option>
-                        <option value="EUR">€ EUR</option>
-                        <option value="GBP">£ GBP</option>
-                        <option value="CAD">C$ CAD</option>
-                        <option value="AUD">A$ AUD</option>
-                        <option value="JPY">¥ JPY</option>
-                    </select>
-                </div>
-                <div class="mobile-account">
-                    <a href="account.html" class="mobile-account-link">
-                        <i class="fas fa-user"></i> My Account
-                    </a>
-                    <a href="wishlist.html" class="mobile-account-link">
-                        <i class="fas fa-heart"></i> Wishlist
-                        <span class="mobile-badge" id="mobileWishlistBadge">0</span>
-                    </a>
-                    <a href="#" class="mobile-account-link" onclick="openCartSidebar()">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                        <span class="mobile-badge" id="mobileCartBadge">0</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Shop Hero Section -->
-    <section class="shop-hero">
+    <!-- Hero Section -->
+    <section class="shop-hero" style="background-image:url('assets/images/shop-hero.jpg'); background-size:cover; background-position:center; background-repeat:no-repeat;">
         <div class="shop-hero-content">
             <h1>Shop Our Collection</h1>
             <p>Curated furniture, lighting, and decor for modern living</p>
@@ -399,6 +389,15 @@
         </div>
     </div>
 
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="search-overlay">
+      <div class="search-panel">
+        <button class="search-close" id="searchClose">×</button>
+        <input id="searchInput" class="search-input" placeholder="Search products..." data-i18n-placeholder="search.placeholder" autocomplete="off" />
+        <div id="searchResults" class="search-results"></div>
+      </div>
+    </div>
+
     <!-- Loader Script -->
     <script src="loader.js"></script>
     
@@ -408,6 +407,9 @@
     <script src="script.js"></script>
     <script src="shop.js"></script>
     <script src="shop-features.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <script src="search.js"></script>
+    <script src="i18n/i18n.js"></script>
     <script>
         // Navigation scroll effect
         window.addEventListener('scroll', function() {
@@ -419,84 +421,20 @@
             }
         });
 
-        // Mobile menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-        const closeMobileMenu = document.querySelector('.close-mobile-menu');
-        const mobileNavItems = document.querySelectorAll('.mobile-nav-item > .mobile-nav-link');
-
-        if (hamburger) {
-            hamburger.addEventListener('click', function() {
-                this.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-                mobileMenuOverlay.classList.toggle('active');
-                document.body.style.overflow = 'hidden';
-            });
-        }
-
-        if (closeMobileMenu) {
-            closeMobileMenu.addEventListener('click', function() {
-                closeMenu();
-            });
-        }
-
-        if (mobileMenuOverlay) {
-            mobileMenuOverlay.addEventListener('click', function() {
-                closeMenu();
-            });
-        }
-
-        // Toggle submenu on mobile
-        mobileNavItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('mobile-submenu')) {
-                    e.preventDefault();
-                    this.parentElement.classList.toggle('active');
-                }
-            });
-        });
-
-        function closeMenu() {
-            hamburger.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Close dropdowns when clicking outside
+        // Close dropdowns on outside click
         document.addEventListener('click', function(e) {
+            if (!e.target.closest('.language-selector')) {
+                const dd = document.getElementById('languageDropdown');
+                if (dd) dd.style.display = 'none';
+            }
             if (!e.target.closest('.currency-selector')) {
-                document.querySelectorAll('.selector-dropdown').forEach(dropdown => {
-                    dropdown.style.display = 'none';
-                });
+                const dd = document.getElementById('currencyDropdown');
+                if (dd) dd.style.display = 'none';
             }
         });
 
-        // Initialize cart and wishlist badges
-        function updateCartBadge() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            document.querySelectorAll('#cartBadge, #mobileCartBadge').forEach(badge => {
-                badge.textContent = totalItems > 0 ? totalItems : '0';
-                badge.style.display = totalItems > 0 ? 'flex' : 'none';
-            });
-        }
-
-        function updateWishlistBadge() {
-            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            document.querySelectorAll('#wishlistBadge, #mobileWishlistBadge').forEach(badge => {
-                badge.textContent = wishlist.length > 0 ? wishlist.length : '0';
-                badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
-            });
-        }
-
-        // Initialize badges on page load
+        // Set initial navbar state on load
         document.addEventListener('DOMContentLoaded', function() {
-            updateCartBadge();
-            updateWishlistBadge();
-            
-            // Set initial navbar state
             if (window.scrollY > 50) {
                 document.querySelector('.navbar').classList.add('scrolled');
             }

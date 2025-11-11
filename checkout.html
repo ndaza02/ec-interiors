@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout • EC Interiors</title>
+  <link rel="stylesheet" href="loader.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="shop-features.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .checkout { max-width: 1100px; margin: 120px auto 80px; padding: 0 20px; }
+    .grid { display:grid; grid-template-columns: 2fr 1fr; gap:2rem; }
+    .card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1.25rem; box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+    .summary-item { display:flex; gap:.75rem; margin-bottom: .75rem; }
+    .summary-item img{ width:64px; height:64px; object-fit:cover; border-radius:8px; }
+    .total { display:flex; justify-content:space-between; font-weight:700; margin-top: 1rem; }
+    .btn-primary { display:inline-block; background: linear-gradient(135deg, #CC5500, #ff7a1a); color:#fff; padding:.9rem 1.2rem; border:none; border-radius:10px; cursor:pointer; width:100%; font-weight:700; }
+    .note { color:#666; font-size:.9rem; margin-top:.5rem; }
+    .disabled { opacity:.6; cursor:not-allowed; }
+    @media(max-width:968px){ .grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo"><a href="index.html">EC INTERIORS</a></div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="nav-icon-btn" onclick="openCartSidebar()" title="Cart"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cartBadge">0</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="checkout">
+    <h1 style="margin-bottom:1rem;">Checkout</h1>
+    <div class="grid">
+      <div class="card">
+        <h3>Contact & Shipping</h3>
+        <form id="checkoutForm">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap: .75rem;">
+            <input required name="firstName" placeholder="First name" />
+            <input required name="lastName" placeholder="Last name" />
+          </div>
+          <input required name="email" type="email" placeholder="Email" style="margin-top:.75rem; width:100%" />
+          <input name="phone" type="tel" placeholder="Phone (optional)" style="margin-top:.75rem; width:100%" />
+          <input required name="address" placeholder="Address" style="margin-top:.75rem; width:100%" />
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap: .75rem; margin-top:.75rem;">
+            <input required name="city" placeholder="City" />
+            <input required name="postal" placeholder="Postal code" />
+          </div>
+          <label style="display:flex; align-items:center; gap:.5rem; margin-top: .75rem;">
+            <input type="checkbox" id="agree" /> I agree to the terms
+          </label>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Order Summary</h3>
+        <div id="summary"></div>
+        <div class="total"><span>Total</span><span id="grandTotal">$0.00</span></div>
+        <button id="payBtn" class="btn-primary" style="margin-top:1rem;">Pay with Paynow (USD)</button>
+        <div id="payNote" class="note"></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header"><h3>Cart</h3><button onclick="closeCartSidebar()" class="modal-close">×</button></div>
+    <div id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Total</span> <strong id="cartTotal">$0.00</strong></div></div>
+  </div>
+
+  <script src="loader.js"></script>
+  <script src="products-data.js"></script>
+  <script src="shop-features.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>
