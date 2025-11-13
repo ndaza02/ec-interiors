@@ -3,5 +3,10 @@
   "nav.shop": "Tienda",
   "nav.about": "Sobre Nosotros",
   "nav.contact": "Contacto",
-  "search.placeholder": "Buscar productos..."
+  "search.placeholder": "Buscar productos...",
+  "about.vision.title": "Visión",
+  "about.vision.text": "Diseñar felicidad y paz. Redefinir el lujo mediante la personalización y ser el líder reconocido globalmente en la creación de diseños de interiores inspiradores y sostenibles.",
+  "about.mission.title": "Misión",
+  "about.mission.text": "Brindar un servicio al cliente excepcional siendo confiables, profesionales y éticos, desarrollando relaciones sólidas y superando las expectativas tanto en diseño como en servicio. Nos esforzamos por crear un diseño cohesivo que combine estética y practicidad, asegurando que cada proyecto sea hermoso y habitable.",
+  "footer.tagline": "Diseñando felicidad y paz."
 }

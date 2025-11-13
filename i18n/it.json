@@ -3,5 +3,10 @@
   "nav.shop": "Negozio",
   "nav.about": "Chi Siamo",
   "nav.contact": "Contatti",
-  "search.placeholder": "Cerca prodotti..."
+  "search.placeholder": "Cerca prodotti...",
+  "about.vision.title": "Visione",
+  "about.vision.text": "Progettare felicità e pace. Ridefinire il lusso attraverso la personalizzazione e diventare il leader riconosciuto a livello globale nella creazione di interior design ispiranti e sostenibili.",
+  "about.mission.title": "Missione",
+  "about.mission.text": "Fornire un servizio clienti eccezionale essendo affidabili, professionali ed etici, sviluppando relazioni solide e superando le aspettative sia nel design sia nel servizio. Puntiamo a creare progetti coerenti che uniscano estetica e praticità, assicurando che ogni progetto sia bello e vivibile",
+  "footer.tagline": "Progettare felicità e pace."
 }

@@ -3,5 +3,10 @@
   "nav.shop": "Shop",
   "nav.about": "Über Uns",
   "nav.contact": "Kontakt",
-  "search.placeholder": "Produkte suchen..."
+  "search.placeholder": "Produkte suchen...",
+  "about.vision.title": "Vision",
+  "about.vision.text": "Glück und Frieden gestalten. Den Luxus durch Personalisierung neu definieren und als weltweit anerkannter führender Anbieter inspirierender und nachhaltiger Interior-Designs gelten.",
+  "about.mission.title": "Mission",
+  "about.mission.text": "Außergewöhnlichen Kundenservice bieten, indem wir vertrauenswürdig, professionell und ethisch handeln, starke Beziehungen aufbauen und Erwartungen in Design und Service übertreffen. Wir streben nach kohärenten Gestaltungen, die Ästhetik und Praktikabilität vereinen, sodass jedes Projekt sowohl schön als auch lebenswert ist",
+  "footer.tagline": "Glück und Frieden gestalten."
 }

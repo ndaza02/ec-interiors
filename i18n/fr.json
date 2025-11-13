@@ -3,5 +3,10 @@
   "nav.shop": "Boutique",
   "nav.about": "À Propos",
   "nav.contact": "Contact",
-  "search.placeholder": "Rechercher des produits..."
+  "search.placeholder": "Rechercher des produits...",
+  "about.vision.title": "Vision",
+  "about.vision.text": "Concevoir le bonheur et la paix. Redéfinir le luxe par la personnalisation et devenir le leader mondialement reconnu dans la création de designs d'intérieur inspirants et durables.",
+  "about.mission.title": "Mission",
+  "about.mission.text": "Fournir un service client exceptionnel en étant dignes de confiance, professionnels et éthiques tout en développant des relations solides, en dépassant les attentes tant en matière de design que de service. Nous nous efforçons de créer des conceptions cohérentes qui marient esthétique et praticité, afin que chaque projet soit à la fois beau et vivable",
+  "footer.tagline": "Concevoir le bonheur et la paix."
 }

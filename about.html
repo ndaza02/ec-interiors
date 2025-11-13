@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About • EC Interiors</title>
+  <link rel="stylesheet" href="loader.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:center;padding-top:100px;z-index:1000}
+    .search-panel{background:#fff;width:min(900px,90vw);border-radius:12px;padding:1rem;box-shadow:0 10px 30px rgba(0,0,0,.2);position:relative}
+    .search-input{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:10px}
+    .search-results{margin-top:.75rem;max-height:60vh;overflow:auto}
+    .search-item{display:flex;gap:.75rem;padding:.5rem;border-radius:8px;align-items:center}
+    .search-item:hover{background:#fafafa}
+    .search-item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+    .search-close{position:absolute;top:-52px;right:0;background:#fff;border:1px solid #eee;border-radius:50%;width:40px;height:40px}
+    .nav-icons{display:flex;align-items:center;gap:.5rem}
+    .nav-icon-btn{position:relative;background:none;border:1px solid #ddd;border-radius:8px;font-size:1.1rem;cursor:pointer;padding:.5rem .7rem;color:inherit;transition:all .3s ease;background:#fff}
+    .nav-icon-btn:hover{transform:scale(1.05); box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    .language-selector{position:relative}
+    .language-selector button{padding:.5rem 1rem;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:.9rem}
+    .language-selector .selector-dropdown{display:none;position:absolute;right:0;top:120%;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden}
+    .language-selector .selector-dropdown button{display:block;width:100%;padding:.6rem .9rem;text-align:left;border:none;background:#fff;cursor:pointer}
+    .language-selector .selector-dropdown button:hover{background:#fafafa}
+    @media (max-width:600px){
+      .search-overlay{align-items:stretch;padding-top:0}
+      .search-panel{width:100vw;height:100dvh;max-height:100dvh;border-radius:0;padding:1rem;padding-top:calc(env(safe-area-inset-top) + 12px)}
+      .search-input{padding:1rem 1.1rem;font-size:1rem}
+      .search-close{top:10px;right:10px;width:44px;height:44px;border-radius:50%;z-index:10}
+      .nav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px}
+    }
+    .about-hero{margin-top:100px;padding:80px 0;background:linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,0));}
+    .about-hero .container{max-width:1100px}
+    .about-hero h1{font-size:2.2rem;margin-bottom:.5rem}
+    .about-section{padding:0 0 80px}
+    .about-grid{max-width:1100px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1.2fr 1fr;gap:2rem}
+    .about-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:1.25rem;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .about-card h3{margin:.25rem 0 .5rem}
+    @media(max-width:968px){ .about-grid{grid-template-columns:1fr} .about-hero{padding:64px 0} }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="index.html">EC INTERIORS</a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html#products" class="nav-link" data-i18n="nav.products">Products</a></li>
+        <li class="nav-item"><a href="shop.html" class="nav-link" data-i18n="nav.shop">Shop</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link" data-i18n="nav.about">About Us</a></li>
+        <li class="nav-item"><a href="index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <div class="nav-icons">
+        <button class="nav-icon-btn" id="openSearch" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <div class="language-selector">
+          <button id="languageBtn" onclick="document.getElementById('languageDropdown').style.display='block'">English</button>
+          <div id="languageDropdown" class="selector-dropdown">
+            <button onclick="changeLanguage('en')">English</button>
+            <button onclick="changeLanguage('es')">Español</button>
+            <button onclick="changeLanguage('fr')">Français</button>
+            <button onclick="changeLanguage('de')">Deutsch</button>
+            <button onclick="changeLanguage('it')">Italiano</button>
+            <button onclick="changeLanguage('ja')">日本語</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Hero -->
+  <section class="about-hero">
+    <div class="container">
+      <h1 class="section-title" data-i18n="nav.about">About Us</h1>
+      <p class="about-text">There are two things which we focus on the most and dedicate our hearts to - furniture and people. We create spaces that inspire, comfort, and transform the way you live.</p>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-section">
+    <div class="about-grid">
+      <div class="about-card">
+        <h3 data-i18n="about.vision.title">Vision</h3>
+        <p class="about-text" data-i18n="about.vision.text">Designing happiness and peace. To redefine luxury through personalization and to be the globally recognized leader in creating inspiring and sustainable interior designs.</p>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="about.mission.title">Mission</h3>
+        <p class="about-text" data-i18n="about.mission.text">To provide exceptional customer service by being trustworthy, professional and ethical while developing strong relationships, exceeding expectations both in design and service. We strive to create cohesive design that marry aesthetics with practicality, ensuring every project is both beautiful and livable</p>
+      </div>
+    </div>
+    <div class="container" style="max-width:1100px; padding:0 20px; margin-top:24px;">
+      <a href="index.html#contact" class="secondary-button">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>EC INTERIORS</h4>
+          <p>Unique, modern and high quality furniture for your dream home.</p>
+          <p class="footer-tagline" data-i18n="footer.tagline">Designing happiness and peace.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#brands">Brands</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li>123 Design Street</li>
+            <li>Interior City, IC 12345</li>
+            <li>info@ecinteriors.com</li>
+            <li>+1 (555) 123-4567</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 EC Interiors. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div id="searchOverlay" class="search-overlay">
+    <div class="search-panel">
+      <button class="search-close" id="searchClose">×</button>
+      <input id="searchInput" class="search-input" placeholder="Search products..." data-i18n-placeholder="search.placeholder" autocomplete="off" />
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+  <script src="products-data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script src="search.js"></script>
+  <script src="i18n/i18n.js"></script>
+  <script>
+    document.addEventListener('click', function(e){
+      if (!e.target.closest('.language-selector')) {
+        const dd = document.getElementById('languageDropdown');
+        if (dd) dd.style.display='none';
+      }
+    });
+  </script>
+</body>
+</html>
