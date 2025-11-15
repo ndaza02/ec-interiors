@@ -444,6 +444,40 @@ function renderCartItems() {
     cartTotal.textContent = formatPrice(cart.getTotal());
 }
 
+// ============= WHATSAPP CHECKOUT =============
+function buildWhatsAppCartMessage() {
+    const lines = [];
+    lines.push('EC Interiors - New Cart Order');
+    lines.push(`Currency: ${currentCurrency}`);
+    try {
+        const lang = languages && languages[currentLanguage] ? languages[currentLanguage] : currentLanguage;
+        lines.push(`Language: ${lang}`);
+    } catch (e) {}
+    lines.push(`Items (${cart.getItemCount()}):`);
+    cart.items.forEach(item => {
+        const unit = formatPrice(item.price);
+        const line = formatPrice(item.price * item.quantity);
+        const sku = item.sku || 'N/A';
+        lines.push(`- ${item.name} (SKU: ${sku}) x${item.quantity} @ ${unit} = ${line}`);
+    });
+    lines.push(`Total: ${formatPrice(cart.getTotal())}`);
+    lines.push('');
+    lines.push('Please confirm your name and delivery details. Thank you!');
+    return lines.join('\n');
+}
+
+function checkoutViaWhatsApp() {
+    if (!cart.items || cart.items.length === 0) {
+        cart.showNotification('Your cart is empty', 'info');
+        return;
+    }
+    const phone = '263777442441';
+    const msg = buildWhatsAppCartMessage();
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    try { closeCartSidebar(); } catch (e) {}
+    window.open(url, '_blank');
+}
+
 // ============= INITIALIZE =============
 const cart = new ShoppingCart();
 const wishlist = new Wishlist();
@@ -465,6 +499,8 @@ window.changeLanguage = changeLanguage;
 window.openCartSidebar = openCartSidebar;
 window.closeCartSidebar = closeCartSidebar;
 window.renderCartItems = renderCartItems;
+window.checkoutViaWhatsApp = checkoutViaWhatsApp;
+window.buildWhatsAppCartMessage = buildWhatsAppCartMessage;
 
 // Close modals on outside click
 window.addEventListener('click', (e) => {
